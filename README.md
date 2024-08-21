@@ -1,2 +1,3 @@
-# aulas-oo
-Aulas de Orientação a Objeto - IFPR Paranaguá
+# Banco
+
+Exercício feito em aula sobre um banco com clientes PF e PJ
