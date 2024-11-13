@@ -17,14 +17,14 @@ import com.alunos.model.Escola;
  * JavaFX App
  */
 public class App extends Application {
-
+    
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("dadosEscola"), 640, 480);
         stage.setScene(scene);
-        // stage.show();
+        stage.show();
     }
 
     @Override
