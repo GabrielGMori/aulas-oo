@@ -36,6 +36,7 @@ public class Escola {
             return false;
         }
         alunos.add(a);
+        alunos.sort( (a1, a2) -> { return a1.getNome().compareTo(a2.getNome()); } );
         return true;
     }
 
@@ -73,6 +74,7 @@ public class Escola {
     public String listar() {
         String dados = "";
         for (int i=0; i<alunos.size(); i++) {
+            if (i != 0) dados = dados + "\n\n";
             dados = dados + alunos.get(i).toString();
         }
         if (dados == "") {

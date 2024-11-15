@@ -1,0 +1,12 @@
+ScrollPane .scroll-bar {
+  -fx-background-color: transparent;
+}
+
+ScrollPane .scroll-bar .thumb {
+  -fx-background-color: #d2fcf8;
+}
+
+ScrollPane > .scroll-bar:vertical .increment-button,
+ScrollPane > .scroll-bar:vertical .decrement-button {
+  -fx-opacity: 0;
+}

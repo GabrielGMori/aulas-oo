@@ -7,11 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.alunos.controller.escolaController;
 import com.alunos.model.Aluno;
-import com.alunos.model.Escola;
 
 /**
  * JavaFX App
@@ -21,8 +20,8 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("dadosEscola"), 640, 480);
+    public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
+        scene = new Scene(loadFXML("principal"), 1200, 800);
         stage.setScene(scene);
         stage.show();
     }
@@ -32,128 +31,40 @@ public class App extends Application {
         Scanner scanner = new Scanner(System.in);
 
         clear();
-        System.out.print("DADOS DA ESCOLA\nNome: ");
-        String escolaNome = scanner.nextLine();
-        System.out.print("Telefone: ");
-        String escolaTelefone = scanner.nextLine();
+        System.out.print("DADOS DA ESCOLA\n");
+        String escolaNome;
+        do {
+            System.out.print("Nome: ");;
+            escolaNome = scanner.nextLine();
+        } while(escolaNome.length() == 0);
+        String escolaTelefone;
+        do {
+            System.out.print("Telefone: ");
+            escolaTelefone = scanner.nextLine();
+        } while(format(escolaTelefone).length() != 11);
         clear();
-        
-        Escola escola = new Escola(escolaNome, escolaTelefone);
-        printMenu(escola);
 
-        int escolha = 0;
-        do {    
-            System.out.print("\n> ");
-            escolha = scanner.nextInt();
-            scanner = new Scanner(System.in);
-            clear();
-            switch(escolha) {
-                case 1:
-                    System.out.print("ADICIONAR ALUNO\nNome: ");
-                    String alunoNome = scanner.nextLine();
-                    String alunoCpf;
-                    do {
-                        System.out.print("CPF: ");
-                        alunoCpf = scanner.nextLine();
-                    } while(format(alunoCpf).length() != 11);
-                    System.out.print("E-mail: ");
-                    String alunoEmail = scanner.nextLine();
-                    String alunoNascimento;
-                    do {
-                        System.out.print("Nascimento (DD/MM/AAAA): ");
-                        alunoNascimento = scanner.nextLine();
-                    } while(format(alunoNascimento).length() != 8);
-                    clear();
-                    printMenu(escola);
-                    if (escola.adicionarAluno(new Aluno(alunoNome, alunoCpf, alunoEmail, alunoNascimento)) == false) {
-                        System.out.println("\nCpf já registrado");
-                        break;
-                    }
-                    System.out.println("\nAluno criado com sucesso");
-                    break;
-                case 2:
-                    System.out.print("PESQUISAR POR NOME\nNome: ");
-                    String pesquisaNome = scanner.nextLine();
-                    ArrayList<Aluno> alunosEncontrados = escola.buscarAlunoNome(pesquisaNome);
-                    clear();
-                    System.out.println("ALUNOS ENCONTRADOS\n");
-                    if (alunosEncontrados == null) {
-                        System.out.println("Nenhum aluno encontrado\n");
-                    } else {
-                        for (int i=0; i<alunosEncontrados.size(); i++) {
-                            System.out.print(alunosEncontrados.get(i).toString());
-                        }
-                    }
-                    System.out.print("Pressione ENTER para sair");
-                    scanner.nextLine();
-                    clear();
-                    printMenu(escola);
-                    break;
-
-                case 3:
-                    
-                    System.out.println("PESQUISAR POR CPF");
-                    String pesquisaCpf;
-                    do {
-                        System.out.print("CPF: ");
-                        pesquisaCpf = scanner.nextLine();
-                    } while(format(pesquisaCpf).length() != 11);
-                    Aluno alunoEncontrado = escola.buscarAlunoCpf(pesquisaCpf);
-                    clear();
-                    System.out.println("ALUNOS ENCONTRADOS\n");
-                    if (alunoEncontrado == null) {
-                        System.out.println("Nenhum aluno encontrado\n");
-                    } else {
-                        System.out.print(alunoEncontrado.toString());
-                    }
-                    System.out.print("Pressione ENTER para sair");
-                    scanner.nextLine();
-                    clear();
-                    printMenu(escola);
-                    break;
-                
-                case 4:
-                    System.out.print("REMOVER ALUNO\nCPF: ");
-                    String removerCPF = scanner.nextLine();
-                    boolean sucesso = escola.removerAluno(removerCPF);
-                    clear();
-                    printMenu(escola);
-                    if (sucesso == false) {
-                        System.out.println("\nCpf não encontrado");
-                        break;
-                    }
-                    System.out.println("\nAluno removido com sucesso");
-                    break;
-
-                case 5:
-                    String alunos = escola.listar();
-                    if (alunos == null) alunos = "Nenhum aluno registrado\n\n";
-                    System.out.print("LISTA DE ALUNOS\n\n" + alunos + "Pressione ENTER para sair");
-                    scanner.nextLine();
-                    clear();
-                    printMenu(escola);
-                    break;
-                
-                case 0:
-                    System.out.println("PROGRAMA FINALIZADO");
-                    break;
-                
-                default:
-                    printMenu(escola);
-                    System.out.println("\nEscolha inválida");
-                    break;
-            }
-        } while (escolha != 0);
-
+        escolaController.setEscola(escolaNome, format(escolaTelefone));
         scanner.close();
+
+        escolaController.getEscola().adicionarAluno(new Aluno("ana silva", "11111111112", "ana.silva@gmail.com", "14102007"));
+        escolaController.getEscola().adicionarAluno(new Aluno("carlos oliveira", "22222222223", "carlos.oliveira@gmail.com", "12062006"));
+        escolaController.getEscola().adicionarAluno(new Aluno("beatriz santos", "33333333334", "beatriz.santos@gmail.com", "23092008"));
+        escolaController.getEscola().adicionarAluno(new Aluno("daniel costa", "44444444445", "daniel.costa@gmail.com", "31012007"));
+        escolaController.getEscola().adicionarAluno(new Aluno("fernanda lima", "55555555556", "fernanda.lima@gmail.com", "05052005"));
+        escolaController.getEscola().adicionarAluno(new Aluno("gabriel rocha", "66666666667", "gabriel.rocha@gmail.com", "20082007"));
+        escolaController.getEscola().adicionarAluno(new Aluno("helena martins", "77777777778", "helena.martins@gmail.com", "18032006"));
+        escolaController.getEscola().adicionarAluno(new Aluno("igor ferreira", "88888888889", "igor.ferreira@gmail.com", "09072008"));
+        escolaController.getEscola().adicionarAluno(new Aluno("juliana almeida", "99999999990", "juliana.almeida@gmail.com", "21112007"));
+        escolaController.getEscola().adicionarAluno(new Aluno("lucas souza", "10101010101", "lucas.souza@gmail.com", "15042006"));
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
@@ -166,11 +77,7 @@ public class App extends Application {
         System.out.flush();  
     }
 
-    private void printMenu(Escola escola) {
-        System.out.println(escola.getNome() + "\n\nGerenciamento de alunos\n1) Adicionar aluno\n2) Buscar aluno por nome\n3) Buscar aluno por CPF\n4) Remover aluno\n5) Listar alunos\n0) Sair\n\nContato: "+escola.getTelefone());
-    }
-
     public static String format(String string) {
-        return string.trim().replace(" ", "").replace(".", "").replace("-", "").replace("/", "");
+        return string.trim().replace(" ", "").replace(".", "").replace("-", "").replace("/", "").replace("(", "").replace(")", "");
     }
 }
